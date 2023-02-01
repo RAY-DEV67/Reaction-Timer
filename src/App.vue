@@ -1,17 +1,38 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>Reaction Timer Game</h1>
+  <button @click="start" :disabled="isplaying">play</button>
+  <Block v-if="isplaying" :delay="delay" @end="endGame"/>
+<Results :score="score" v-if="showResults"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Block from "./components/Blocks.vue";
+import Results from "./components/Results.vue";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  components: { Block, Results },
+  data() {
+    return {
+      isplaying: false,
+      delay: null,
+      score: null,
+      showResults : false
+    };
+  },
+  methods: {
+    start() {
+      this.delay = 2000 + Math.random() * 5000;
+      this.isplaying = true;
+      this.showResults = false
+    },
+    endGame(reactionTime) {
+this.score = reactionTime
+this.isplaying = false
+this.showResults = true
+    }
+  },
+};
 </script>
 
 <style>
@@ -20,7 +41,29 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: whitesmoke;
+  height: 70vh;
+  margin: 0;
+  padding: 0;
+  border-radius: 10px;
+  background-color: #004E71;
+}
+button{
+  background: #0faf87;
+  columns: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin: 10px;
+}
+button[disabled]{
+  opacity: 0.2;
+  cursor: not-allowed
+}
+h1{
+  padding-top: 2rem;
 }
 </style>
